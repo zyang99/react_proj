@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 准备一个容器 -->
+  <div id="test"></div>
+
+  <!-- 引入JS，有顺序 -->
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../pacakage_new/react.development.js"></script>
+  <!-- 引入react-dom，用于至此react操作dom -->
+  <script type="text/javascript" src="../pacakage_new/react-dom.development.js"></script>
+  <!-- 引入babel，用于将jsx转化为js -->
+  <script type="text/javascript" src="../pacakage_new/babel.min.js"></script>
+
+  <script type="text/babel">
+    //创建类式组件
+    class Weather extends React.Component{
+      //构造器调用了几次？  ----- 1次
+      constructor(props){
+        super(props)
+        //初始化状态
+        this.state = {isHot: true,}
+        // 解决change中的指向问题
+        this.changeWeather = this.change.bind(this)
+      }
+
+      //change调用了几次？ ---点多少次就调用几次
+      change(){
+        //change放在了Weather原型对象上，供实例使用
+        //由于change作为onClick的回调，所以不是通过实例调用的，是直接调用的
+        //由于类中方法默认开启了局部的严格模式，所以change中的this为undefined
+        
+        //严重注意：状态state不可直接更改(如下)，要借助内部一个api
+        // this.state.isHot = !this.state.isHot
+
+        //严重注意：状态必须通过setState来更新，且更新是一种合并，不是替换
+        this.setState({isHot:!this.state.isHot})
+      }
+
+      // render调用了几次？ ---1+n次   1是初始化那次， n是状态更新的次数
+      render(){
+        // 读取状态--解构赋值来读取的
+        const {isHot} = this.state
+        return (
+          <h2 onClick={this.changeWeather}>今天天气很{isHot ? '炎热':'凉爽'}</h2>
+        )
+      }
+    }
+    //渲染组件到真实页面中
+    ReactDOM.render(<Weather/>,document.getElementById('test'))
+
+  </script>
+</body>
+</html>

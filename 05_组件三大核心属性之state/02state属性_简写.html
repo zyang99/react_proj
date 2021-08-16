@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 准备一个容器 -->
+  <div id="test"></div>
+
+  <!-- 引入JS，有顺序 -->
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../pacakage_new/react.development.js"></script>
+  <!-- 引入react-dom，用于至此react操作dom -->
+  <script type="text/javascript" src="../pacakage_new/react-dom.development.js"></script>
+  <!-- 引入babel，用于将jsx转化为js -->
+  <script type="text/javascript" src="../pacakage_new/babel.min.js"></script>
+
+  <script type="text/babel">
+    //创建类式组件
+    class Weather extends React.Component{
+      //初始化state
+      state = {isHot: true,}
+      //自定义方法----要用赋值语句+箭头函数
+      change = ()=>{
+        this.setState({isHot:!this.state.isHot})
+      }
+      render(){
+        const {isHot} = this.state
+        return (
+          <h2 onClick={this.change}>今天天气很{isHot ? '炎热':'凉爽'}</h2>
+        )
+      }
+    }
+    //渲染组件到真实页面中
+    ReactDOM.render(<Weather/>,document.getElementById('test'))
+  </script>
+</body>
+</html>

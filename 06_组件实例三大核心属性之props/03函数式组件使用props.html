@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 准备一个容器 -->
+  <div id="test1"></div>
+  <div id="test2"></div>
+  <div id="test3"></div>
+
+  <!-- 引入JS，有顺序 -->
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../pacakage_new/react.development.js"></script>
+  <!-- 引入react-dom，用于至此react操作dom -->
+  <script type="text/javascript" src="../pacakage_new/react-dom.development.js"></script>
+  <!-- 引入babel，用于将jsx转化为js -->
+  <script type="text/javascript" src="../pacakage_new/babel.min.js"></script>
+  <!-- 引入prop-types 用于限制props的类型 -->
+  <script type="text/javascript" src="../pacakage_new/prop-types.js"></script>
+
+  <script type="text/babel">
+    //创建函数式式组件
+    function Person({name,sex,age}){
+      return (
+        <ul>
+          <li>姓名：{name}</li>
+          <li>性别：{sex}</li>
+          <li>年龄：{age+1}</li>
+        </ul>
+      )
+    }
+    // ReactDOM.render(<Person name='tom' sex='女' age='18'/>,document.getElementById('test1'))
+    const p = {name:'tom',age:18,sex:'女'}
+    ReactDOM.render(<Person {...p}/>,document.getElementById('test1'))
+  </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 准备一个容器 -->
+  <div id="test1"></div>
+
+  <!-- 引入JS，有顺序 -->
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../pacakage_old/react.development.js"></script>
+  <!-- 引入react-dom，用于至此react操作dom -->
+  <script type="text/javascript" src="../pacakage_old/react-dom.development.js"></script>
+  <!-- 引入babel，用于将jsx转化为js -->
+  <script type="text/javascript" src="../pacakage_new/babel.min.js"></script>
+  <!-- 引入prop-types 用于限制props的类型 -->
+  <script type="text/javascript" src="../pacakage_new/prop-types.js"></script>
+
+  <script type="text/babel">
+    //创建类式组件
+    class Demo extends React.Component{
+      showLeft = ()=>{
+        const {left} = this
+        alert(left.value)
+      }
+      showData = ()=>{
+        const {right} = this
+        alert(right.current.value)
+      }
+      //createRef形式 容器存放节点
+      right = React.createRef()
+      render(){
+        return (
+          <div>
+            <input type='text' ref={c=>this.left = c} placeholder="点击按钮提示数据"></input>&nbsp;
+            <button onClick={this.showLeft}>点击提示左侧数据</button>&nbsp;
+            <input ref={this.right} onBlur={this.showData} type='text' placeholder="失去焦点提示数据"/>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<Demo/>,document.getElementById('test1'))
+  </script>
+</body>
+</html>
