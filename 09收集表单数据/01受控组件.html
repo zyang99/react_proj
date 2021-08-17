@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 准备一个容器 -->
+  <div id="test1"></div>
+
+  <!-- 引入JS，有顺序 -->
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../pacakage_new/react.development.js"></script>
+  <!-- 引入react-dom，用于至此react操作dom -->
+  <script type="text/javascript" src="../pacakage_new/react-dom.development.js"></script>
+  <!-- 引入babel，用于将jsx转化为js -->
+  <script type="text/javascript" src="../pacakage_new/babel.min.js"></script>
+  <!-- 引入prop-types 用于限制props的类型 -->
+  <script type="text/javascript" src="../pacakage_new/prop-types.js"></script>
+
+  <script type="text/babel">
+    //创建类式组件
+    class Login extends React.Component{
+      state = {
+        user:'0',
+        password:'0',
+      }
+      saveUser = (event)=>{
+        this.setState({user:event.target.value})
+      }
+      savePassword = event =>{
+        this.setState({password:event.target.value})
+      }
+      handleSubmit=(event)=>{
+        event.preventDefault()    //阻止默认事件
+        const {user,password} = this.state
+        alert(`您输入的用户名是${user}，输入的密码是${password}`)
+      }
+      // 所有输入DOM的值 实现了双向数据绑定 受控的
+      render(){
+        const {user,password} = this.state
+        return ( 
+          <div>
+            <form action="https://www.cuit.edu.cn" onSubmit={this.handleSubmit}>
+              用户名：<input onChange={this.saveUser} value={user} type='text' placeholder="用户名" name="user"/>&nbsp;&nbsp;
+              密码：<input onChange={this.savePassword} value={password} type='password' placeholder="密码" name="password"/>&nbsp;&nbsp;
+              <button>登录</button>
+          </form>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<Login/>,document.getElementById('test1'))
+  </script>
+</body>
+</html>
