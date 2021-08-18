@@ -309,18 +309,20 @@
   
   //回调形式的refs----大家都在使用的
   ref={current => this.string = current}
-  this.refs.string
+  this.string
   //这种内联回调形式 在更新的时候 会调用两次 第一次会传入null 第二次才是当前节点
   // 可以通过写成class绑定形式：即写成一个方法 放在外面       但是这是无关紧要的 写内联就ok了
   ref={this.setRef}
   setRef = current=>{
   	this.string = current
   }
+  this.string  //使用
   
   //createRef形式的refs----官方推荐的
   myRef = React.createRef()  //创建一个容器用来存放节点
   ref={this.myRef} 
   //多个节点需要创建多个容器
+  this.myRef  //使用
   
   //能不用refs 就不要用
   ```
@@ -345,7 +347,37 @@
 + 组件从创建到死亡会经历一些特定的阶段
 + React组件包含一系列狗子函数，会在特定时候调用工作
 + 定义组件时候，会在特定的生命周期回调函数中，做特定的工作
-+ 
++ **生命周期的三个阶段（旧）**：
+  1. 初始化阶段：由ReactDOM.render()触发-----初次渲染
+     1. constructor()
+     2. componentWillMount() ======> UNSAFE_componentWillMount()
+     3. render() **==>必须使用的一个**
+     4. componentDidMount()   **==> 常用：一般在这个钩子中做初始化的事情：例如开启定时器，发送网络请求，订阅消息**
+  2. 更新阶段：由组件内部 this.setState() 或父组件重新render触发
+     1. componentWillReceiveProps()-父组件重新render触发  =>UNSAFE_componentWillReceiveProps()
+     2. shouldComponentUpdate()-----------  组件内部 this.setState()
+     3. componentWillUpdate() ------  组件内部 this.forceUpdate()=>UNSAFE_componentWillUpdate()
+     4. render()   **==>必须使用的一个**
+     5. componentDidUpdate()
+  3. 卸载组件：由ReactDOM.unmountComponentAtNode() 触发
+     1. componentWillUnmount()  **==> 常用：一般在这个钩子里面做收尾的事情：例如关闭定时器、取消订阅消息**
+
++ **生命周期的三个阶段（新）**：
+  1. 初始化阶段：由ReactDOM.render()触发-----初次渲染
+     1. constructor()
+     2. static getDerivedStateFromProps()
+     3. render() **==>必须使用的一个**
+     4. componentDidMount()   **==> 常用：一般在这个钩子中做初始化的事情：例如开启定时器，发送网络请求，订阅消息**
+  2. 更新阶段：由组件内部 this.setState() 或父组件重新render触发
+     1. static getDerivedStateFromProps()
+     2. shouldComponentUpdate()-----------  组件内部 this.setState()
+     3. render()   **==>必须使用的一个**
+     4. getSnapshotBeforeUpdate()
+     5. componentDidUpdate()
+  3. 卸载组件：由ReactDOM.unmountComponentAtNode() 触发
+     1. componentWillUnmount()  **==> 常用：一般在这个钩子里面做收尾的事情：例如关闭定时器、取消订阅消息**
+
+### 虚拟DOM与DOM Diffing算法
 
 
 

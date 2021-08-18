@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width= , initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .list{
+      width: 200px;
+      height: 150px;
+      background-color: rgb(178, 178, 230);
+      overflow: auto;
+    }
+    .news{
+      height: 30px;
+    }
+  </style>
+</head>
+<body>
+  
+  <div id="test"></div>
+  <!-- 引入react核心库 -->
+  <script type="text/javascript" src="../pacakage_new/react.development.js"></script>
+  <!-- 引入react-dom，用于至此react操作dom -->
+  <script type="text/javascript" src="../pacakage_new/react-dom.development.js"></script>
+  <!-- 引入babel，用于将jsx转化为js -->
+  <script type="text/javascript" src="../pacakage_new/babel.min.js"></script>
+  <!-- 引入prop-types 用于限制props的类型 -->
+  <script type="text/javascript" src="../pacakage_new/prop-types.js"></script>
+  <script type="text/babel">
+    class NewsList extends React.Component{
+      state = {
+        newsArr:[]
+      }
+
+      componentDidMount(){
+        setInterval(()=>{
+          const {newsArr} = this.state
+          const news = '新闻'+(newsArr.length+1)
+          this.setState({newsArr:[news,...newsArr]}) 
+        },1000)
+      }
+
+      getSnapshotBeforeUpdate(){
+        console.log(this.list);
+        return this.list.scrollHeight
+      }
+
+      setRef = (name)=>{
+        return (current)=>{
+          this[name] = current
+        }
+      }
+      componentDidUpdate(preProps,preState,height){
+        this.list.scrollTop += this.list.scrollHeight - height
+      }
+      render(){
+        const {newsArr} = this.state
+        return (
+          <div className="list" ref={this.setRef('list')}>
+            {
+              newsArr.map((item,index)=>{
+                return <div key={index} className="news">{item}</div>
+              })
+            }
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<NewsList/>,document.getElementById('test'))
+  </script>
+</body>
+</html>

@@ -10,9 +10,9 @@
   <div id="test"></div>
   <!-- 引入JS，有顺序 -->
   <!-- 引入react核心库 -->
-  <script type="text/javascript" src="../pacakage_old/react.development.js"></script>
+  <script type="text/javascript" src="../pacakage_new/react.development.js"></script>
   <!-- 引入react-dom，用于至此react操作dom -->
-  <script type="text/javascript" src="../pacakage_old/react-dom.development.js"></script>
+  <script type="text/javascript" src="../pacakage_new/react-dom.development.js"></script>
   <!-- 引入babel，用于将jsx转化为js -->
   <script type="text/javascript" src="../pacakage_new/babel.min.js"></script>
   <!-- 引入prop-types 用于限制props的类型 -->
@@ -27,9 +27,11 @@
           count:0
         }
       }
-      // 组件将要挂载
-      componentWillMount(){
-        console.log('componentWillMount');
+      static getDerivedStateFromProps(props,state){
+        console.log('getDerivedStateFromProps',props,state)
+        return null   //return 1 state Obj  2 null
+        // return props   会把state变为count：122 并且更新也不起作用了
+        //适用于罕见用例： 即state值在任何时候都取决于props
       }
       // 组件挂载完成
       componentDidMount(){
@@ -44,12 +46,14 @@
         console.log('shouldComponentUpdate');
         return true
       }
-      // 组件将要更新
-      componentWillUpdate(){
-        console.log('componentWillUpdate');
+      // 在更新之前 获取 快照  使用并不常见
+      // 有时用于 UI方面
+      getSnapshotBeforeUpdate(){
+        console.log('getSnapshotBeforeUpdate');
+        return 'zyang'
       }
-      componentDidUpdate(){
-        console.log('componentDidUpdate');
+      componentDidUpdate(preProps,preState,snapshotValue){
+        console.log('componentDidUpdate',preProps,preState,snapshotValue);
       }
       add = ()=>{
         const {count} = this.state
@@ -91,16 +95,13 @@
     }
     // 子组件
     class B extends React.Component{
-      componentWillReceiveProps(){
-        console.log('componentWillReceiveProps');
-      }
       render(){
         return (
           <h2>B组件接收的车是：{this.props.carName}</h2>
         )
       }
     }
-    ReactDOM.render(<A/>,document.getElementById('test'))
+    ReactDOM.render(<Count count={122}/>,document.getElementById('test'))
   </script>
 </body>
 </html>
